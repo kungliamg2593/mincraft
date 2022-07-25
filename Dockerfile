@@ -1,3 +1,4 @@
+#sudo podman build --tls-verify=false -t alpiine.ms . --no-cache
 FROM alpine:latest
 RUN \
   echo "http://dl-cdn.alpinelinux.org/alpine/v3.15/main" > /etc/apk/repositories && \
