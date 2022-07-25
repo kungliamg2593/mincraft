@@ -1,4 +1,4 @@
-#sudo podman build --tls-verify=false -t alpiine.ms . --no-cache
+#sudo podman build --tls-verify=false -t quay.io/kungliamg2593/alpine.ms . --no-cache
 #sudo podman login quay.io
 #sudo podman push --tls-verify=false -t quay.io/kungliamg2593/alpine.ms:latest
 #sudo podman run --rm --name a1 -h a1 -d -p 25565:25565 quay.io/kungliamg2593/alpine.ms
