@@ -14,7 +14,7 @@ RUN \
   mkdir /bin/ms && cd /bin/ms && \
   wget https://launcher.mojang.com/v1/objects/e00c4052dac1d59a1188b2aa9d5a87113aaf1122/server.jar && \
   java -Xmx1024M -Xms1024M -jar server.jar nogui && \
-  cat /bin/ms/eula.txt |sed -e 's/false/true/g' > /bin/ms/eula.txt
+  sed -i 's/false/ture/g' ~/eula.txt
 
 ENTRYPOINT ["/usr/bin/java"]
 
