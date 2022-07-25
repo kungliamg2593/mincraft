@@ -15,4 +15,4 @@ RUN \
 
 ENTRYPOINT ["/usr/bin/java"]
 
-CMD ["-Xmx1024M", "-Xms1024M", "-jar", "server.jar", "nogui"]
+CMD ["-Xmx1024M", "-Xms1024M", "-jar", "/bin/ms/server.jar", "nogui"]
