@@ -1,6 +1,8 @@
 #sudo podman build --tls-verify=false -t alpiine.ms . --no-cache
 #sudo podman login quay.io
-#sudo podman push --tls-verify=false -t alpine.ms:latest
+#sudo podman push --tls-verify=false -t quay.io/kungliamg2593/alpine.ms:latest
+#sudo podman run --rm --name a1 -h a1 -d -p 25565:25565 quay.io/kungliamg2593/alpine.ms
+#sudo podman run --rm --name a1 -h a1 -p 25565:25565 quay.io/kungliamg2593/alpine.ms
 FROM alpine:latest
 RUN \
   echo "http://dl-cdn.alpinelinux.org/alpine/v3.15/main" > /etc/apk/repositories && \
