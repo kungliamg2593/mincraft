@@ -1,0 +1,48 @@
+apk add tree unzip curl wget zip grep bash procps util-linux-misc dialog go udev sudo pciutils podman cni-plugin-flannel cni-plugins flannel flannel-contrib-cni kubelet kubeadm docker uuidgen nfs-utils nano 
+nano /etc/apk/repositories
+
+http://dl-cdn.alpinelinux.org/alpine/v3.15/main
+http://dl-cdn.alpinelinux.org/alpine/v3.15/community
+#http://dl-cdn.alpinelinux.org/alpine/edge/main
+http://dl-cdn.alpinelinux.org/alpine/edge/community
+http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
+echo -e "tao\ntao" | adduser -s /bin/bash tao
+addgroup tao wheel
+
+nano /etc/sudoers
+#%wheel ALL=(ALL) NOPASSWD: ALL
+
+passwd -dl root
+
+#ssh tao user
+ssh-keygen -t rsa -P ''
+
+cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+#ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDGKU7wYD/1kagKE08r8uBOzIwfuSeCMhuo2u3sYEBvy1REoqXkVwwVEOJ6inYVbJxlgrDHV5sILuLtw5gtBabgZ7K1nrGyW6W9Qu5DNrgE0cSXAtt2Gq6CbwmGNzmChvjpI8AmCwCwA+BlLY1VQDIIGBSWKGX4CbGAeD4uLkUP00SUKB8OI9Xkz7/XPXOLGeuIzDHCYXJv3BY9AucY4yBMEaGJLku9XtY+xqNj6qpRUOyzkKSvjNd15Q4OS6nKMCDy3oKse55+h7k5CQEHl5TfwuTyKV9auVudASOuDX83lDwRHQ7Lqjcr2QXo/koUmNMx8XdFfocIkeLWohb4Cwq17yzI3crrF6oLEopPH6D0SGi9muLGDrx0gQBGWFLjMSJslWpAMry+rvsoDZl0G99fiQbAQ2r7e31Cg96VWj5/30qgZ2NRh52IsNTZCSZ9l1OjIbFSrPkYUrn/wmXUaHDZBGSjN+z2jFJLp9+RxpmPCDRNoVkEbqRRktGTxSjYzJM= kungl@DESKTOP-39PJ9HD
+#加入遠端工作機的公鑰
+
+echo 'StrictHostKeyChecking no' | sudo tee -a /etc/ssh/ssh_config
+echo 'PermitUserEnvironment yes' | sudo tee -a /etc/ssh/sshd_config
+sudo reboot
+
+echo "br_netfilter" |sudo tee /etc/modules-load.d/k8s.conf
+sudo modprobe br_netfilter
+cat /etc/fstab | grep -v swap |sudo tee temp.fstab
+cat temp.fstab |sudo tee /etc/fstab
+sudo rm temp.fstab
+sudo swapoff -a
+sudo mount --make-rshared /
+echo '#!/bin/sh' |sudo tee /etc/local.d/sharemetrics.start
+echo "mount --make-rshared /" |sudo tee -a  /etc/local.d/sharemetrics.start
+sudo chmod +x /etc/local.d/sharemetrics.start
+sudo rc-update add local
+uuidgen |sudo tee /etc/machine-id
+sudo rc-update add docker
+sudo rc-update add kubelet
+sudo rc-update add ntpd
+sudo /etc/init.d/ntpd start
+sudo /etc/init.d/docker start
+sudo ln -s /usr/libexec/cni/flannel-amd64 /usr/libexec/cni/flannel
+echo "net.bridge.bridge-nf-call-iptables=1" |sudo tee -a /etc/sysctl.conf
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
