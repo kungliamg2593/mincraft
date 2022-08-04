@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: msser
+spec:
+  type: NodePort
+  ports:
+  - port: 25565
+    targetPort: 25565
+    protocol: TCP
+    nodePort: 31234
+  selector:
+    app: mskube
